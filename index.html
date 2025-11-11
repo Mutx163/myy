@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutx163 - 个人主页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#8B5CF6',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            }
+            .hover-scale {
+                transition: transform 0.3s ease;
+            }
+            .hover-scale:hover {
+                transform: scale(1.03);
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.8s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-light text-dark antialiased">
+    <!-- 导航栏 -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 font-bold text-xl text-primary">
+                <span class="fa fa-user-circle"></span>
+                <span>Mutx163</span>
+            </a>
+            
+            <!-- 桌面导航 -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">关于我</a>
+                <a href="#skills" class="text-gray-700 hover:text-primary transition-colors">技能</a>
+                <a href="#projects" class="text-gray-700 hover:text-primary transition-colors">项目经历</a>
+                <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">联系方式</a>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <button class="md:hidden text-gray-700 hover:text-primary" id="menuToggle">
+                <span class="fa fa-bars text-xl"></span>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div class="md:hidden hidden bg-white border-t" id="mobileMenu">
+            <div class="container mx-auto px-4 py-2 flex flex-col gap-3">
+                <a href="#about" class="py-2 text-gray-700 hover:text-primary transition-colors">关于我</a>
+                <a href="#skills" class="py-2 text-gray-700 hover:text-primary transition-colors">技能</a>
+                <a href="#projects" class="py-2 text-gray-700 hover:text-primary transition-colors">项目经历</a>
+                <a href="#contact" class="py-2 text-gray-700 hover:text-primary transition-colors">联系方式</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <header class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-primary text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center animate-fade-in">
+                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-shadow mb-6">
+                    你好，我是 <span class="text-yellow-300">Mutx163</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-8">
+                    重庆城市科技学院 | 机械设计及其自动化 | 大三学生
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#contact" class="bg-white text-primary px-6 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                        <span class="fa fa-handshake-o mr-2"></span>联系我
+                    </a>
+                    <a href="#projects" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all hover:-translate-y-1">
+                        <span class="fa fa-folder-open-o mr-2"></span>查看项目
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 关于我 -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <!-- 头像 -->
+                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl">
+                        <img src="https://picsum.photos/400/400" alt="Mutx163 头像" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- 介绍 -->
+                    <div class="flex-1">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-dark">关于我</h2>
+                        <div class="space-y-4 text-gray-700">
+                            <p>我是 <strong>Mutx163</strong>，目前就读于重庆城市科技学院机械设计及其自动化专业，是一名大三学生。我对机械设计、自动化控制以及相关的技术领域充满热情。</p>
+                            <p>在校期间，我认真学习专业课程，积极参与实践项目，不断提升自己的专业能力和解决问题的能力。我热爱机械设计的严谨性，也享受将理论知识应用到实际项目中的过程。</p>
+                            <p>除了专业学习，我也关注行业发展趋势，努力学习新技术和新方法，希望能够在未来的机械工程领域做出自己的贡献。</p>
+                        </div>
+                        
+                        <!-- 基本信息 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                            <div class="flex items-center gap-3">
+                                <span class="fa fa-user-circle text-primary text-xl w-8"></span>
+                                <span><strong>姓名：</strong>Mutx163</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="fa fa-graduation-cap text-primary text-xl w-8"></span>
+                                <span><strong>学校：</strong>重庆城市科技学院</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="fa fa-book text-primary text-xl w-8"></span>
+                                <span><strong>专业：</strong>机械设计及其自动化</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="fa fa-calendar text-primary text-xl w-8"></span>
+                                <span><strong>年级：</strong>大三</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能 -->
+    <section id="skills" class="py-16 md:py-24 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-dark">我的技能</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">作为机械设计及其自动化专业的学生，我掌握了多方面的专业技能和基础知识</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- 专业技能 -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-primary">专业技能</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">机械设计</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-primary h-2.5 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">AutoCAD</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-primary h-2.5 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">SolidWorks</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-primary h-2.5 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">自动化控制</span>
+                                    <span>70%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-primary h-2.5 rounded-full" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">机械原理</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-primary h-2.5 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 其他技能 -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-primary">其他技能</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">Python 编程</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-secondary h-2.5 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">工程力学</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-secondary h-2.5 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">英语</span>
+                                    <span>60%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-secondary h-2.5 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">团队协作</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-secondary h-2.5 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">问题解决</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-secondary h-2.5 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 技能图表 -->
+                <div class="mt-16 bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-center mb-8">技能分布</h3>
+                    <div class="w-full h-80">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目经历 -->
+    <section id="projects" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-dark">项目经历</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">在校期间参与的部分项目实践，展现了我的专业能力和团队协作精神</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 项目卡片 1 -->
+                    <div class="bg-light rounded-xl overflow-hidden shadow-lg hover-scale">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://picsum.photos/600/400?random=1" alt="机械臂设计项目" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-3 text-dark">机械臂设计项目</h3>
+                            <p class="text-gray-600 mb-4">作为团队成员，参与设计和制造了一个3自由度机械臂，负责机械结构设计和SolidWorks建模。</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">SolidWorks</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">机械设计</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">团队协作</span>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline flex items-center gap-1">
+                                <span>查看详情</span>
+                                <span class="fa fa-arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目卡片 2 -->
+                    <div class="bg-light rounded-xl overflow-hidden shadow-lg hover-scale">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://picsum.photos/600/400?random=2" alt="自动化分拣系统" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-3 text-dark">自动化分拣系统</h3>
+                            <p class="text-gray-600 mb-4">参与设计简易自动化分拣系统，负责控制系统部分的设计和调试，使用传感器和电机实现自动分拣。</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">自动化控制</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">传感器应用</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">系统调试</span>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline flex items-center gap-1">
+                                <span>查看详情</span>
+                                <span class="fa fa-arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目卡片 3 -->
+                    <div class="bg-light rounded-xl overflow-hidden shadow-lg hover-scale">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://picsum.photos/600/400?random=3" alt="3D打印模型设计" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-3 text-dark">3D打印模型设计</h3>
+                            <p class="text-gray-600 mb-4">独立完成了一个复杂机械零件的3D模型设计，并通过3D打印技术实现了实体制作，验证了设计的可行性。</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">3D建模</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">3D打印</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">产品设计</span>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline flex items-center gap-1">
+                                <span>查看详情</span>
+                                <span class="fa fa-arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="contact" class="py-16 md:py-24 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-dark">联系我</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">如果您有任何问题或合作意向，欢迎通过以下方式与我联系</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- 联系信息 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6 text-primary">联系方式</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                    <span class="fa fa-envelope text-xl"></span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">邮箱</h4>
+                                    <p class="text-gray-600">mutx163@example.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                    <span class="fa fa-phone text-xl"></span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">电话</h4>
+                                    <p class="text-gray-600">138****1234</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                    <span class="fa fa-map-marker text-xl"></span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">学校</h4>
+                                    <p class="text-gray-600">重庆城市科技学院</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                    <span class="fa fa-graduation-cap text-xl"></span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">专业</h4>
+                                    <p class="text-gray-600">机械设计及其自动化</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 社交媒体 -->
+                        <div class="mt-10">
+                            <h4 class="font-medium text-dark mb-4">社交媒体</h4>
+                            <div class="flex gap-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                    <span class="fa fa-weixin"></span>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                    <span class="fa fa-qq"></span>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                    <span class="fa fa-github"></span>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                    <span class="fa fa-linkedin"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 留言表单 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6 text-primary">给我留言</h3>
+                        
+                        <form id="contactForm" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="请输入您的姓名">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="请输入您的邮箱">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">主题</label>
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="请输入留言主题">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">留言内容</label>
+                                <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="请输入您的留言内容"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white font-medium py-3 px-4 rounded-lg hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all">
+                                <span class="fa fa-paper-plane mr-2"></span>发送留言
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-6 md:mb-0">
+                        <a href="#" class="flex items-center gap-2 font-bold text-xl text-white">
+                            <span class="fa fa-user-circle"></span>
+                            <span>Mutx163</span>
+                        </a>
+                        <p class="text-gray-400 mt-2">重庆城市科技学院 | 机械设计及其自动化专业</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我</a>
+                        <a href="#skills" class="text-gray-400 hover:text-white transition-colors">技能</a>
+                        <a href="#projects" class="text-gray-400 hover:text-white transition-colors">项目经历</a>
+                        <a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系方式</a>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Mutx163. All rights reserved.</p>
+                    
+                    <div class="flex gap-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="fa fa-weixin text-xl"></span>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="fa fa-qq text-xl"></span>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="fa fa-github text-xl"></span>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="fa fa-linkedin text-xl"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+        <span class="fa fa-arrow-up"></span>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2', 'shadow');
+                navbar.classList.remove('py-3', 'md:py-4');
+                backToTop.classList.remove('opacity-0', 'invisible');
+                backToTop.classList.add('opacity-100', 'visible');
+            } else {
+                navbar.classList.remove('py-2', 'shadow');
+                navbar.classList.add('py-3', 'md:py-4');
+                backToTop.classList.add('opacity-0', 'invisible');
+                backToTop.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // 关闭移动菜单
+                    mobileMenu.classList.add('hidden');
+                    
+                    // 滚动到目标位置
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 回到顶部按钮
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 技能图表
+        const ctx = document.getElementById('skillsChart').getContext('2d');
+        const skillsChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['机械设计', 'AutoCAD', 'SolidWorks', '自动化控制', '机械原理', 'Python编程', '工程力学'],
+                datasets: [{
+                    label: '技能水平',
+                    data: [85, 80, 75, 70, 85, 65, 80],
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true,
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: {
+                            stepSize: 20,
+                            backdropColor: 'transparent'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // 表单提交处理
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // 模拟表单提交
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="fa fa-spinner fa-spin mr-2"></span>发送中...';
+            
+            setTimeout(() => {
+                // 模拟成功提交
+                contactForm.reset();
+                submitButton.innerHTML = '<span class="fa fa-check mr-2"></span>发送成功';
+                submitButton.classList.remove('bg-primary');
+                submitButton.classList.add('bg-green-500');
+                
+                setTimeout(() => {
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('bg-green-500');
+                    submitButton.classList.add('bg-primary');
+                }, 3000);
+            }, 1500);
+        });
+        
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
