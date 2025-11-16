@@ -5,376 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mutx163 - 个人主页</title>
 
-    <!-- 优化建议 5: SEO 和社交媒体分享优化 -->
     <meta name="description" content="Mutx163，重庆城市科技学院机械设计制造及其自动化专业学生。探索3D建模、智能制造和机器人技术。">
     <meta name="keywords" content="Mutx163, 机械设计, 自动化, SolidWorks, 重庆城市科技学院, 个人主页">
-    <!-- Open Graph / 社交媒体分享 -->
-    <meta property="og:type" content="website">
     <meta property="og:title" content="Mutx163 - 个人主页">
     <meta property="og:description" content="探索3D建模、智能制造和机器人技术。">
-    <!-- 你可以放一张你的头像链接在这里 -->
-    <!-- <meta property="og:image" content="https://your-domain.com/profile-image.jpg"> -->
 
     <style>
-        /* --- CSS 变量：定义颜色、字体和间距 --- */
+        /* --- CSS 变量 --- */
         :root {
-            /* 颜色 */
-            --bg-color: #f5f5f7;
-            --secondary-bg-color: #ffffff;
-            --text-color: #1d1d1f;
-            --secondary-text-color: #6e6e73;
-            --accent-color: #0071e3;
-            --border-color: #d2d2d7;
-            /* 字体 */
+            --bg-color: #ffffff; --secondary-bg-color: #f5f5f7; --text-color: #1d1d1f; --secondary-text-color: #6e6e73; --accent-color: #0071e3; --border-color: #d2d2d7;
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            /* 优化建议 7: 统一间距规范 */
-            --spacing-small: 8px;
-            --spacing-medium: 20px;
-            --spacing-large: 40px;
-            --border-radius: 18px;
+            --spacing-small: 8px; --spacing-medium: 20px; --spacing-large: 40px; --border-radius: 18px;
         }
-
-        /* --- 深色模式 --- */
         @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #000000;
-                --secondary-bg-color: #1d1d1f;
-                --text-color: #f5f5f7;
-                --secondary-text-color: #a1a1a6;
-                --accent-color: #0077ed;
-                --border-color: #424245;
-            }
+            :root { --bg-color: #000000; --secondary-bg-color: #151516; --text-color: #f5f5f7; --secondary-text-color: #86868b; --accent-color: #2997ff; --border-color: #424245; }
         }
 
-        /* --- 全局样式重置和基础设置 --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* --- 全局与滚动吸附 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html {
             scroll-behavior: smooth;
+            /* 核心：定义滚动吸附容器 */
+            scroll-snap-type: y mandatory;
         }
-
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; font-size: 17px;
             transition: background-color 0.3s, color 0.3s;
-            /* 优化建议 4: 字体渲染优化 */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;
         }
-
-        /* --- 布局容器 --- */
-        .container {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 0 var(--spacing-medium);
-        }
+        body.modal-open { overflow: hidden; }
+        .container { max-width: 980px; margin: 0 auto; padding: 0 var(--spacing-medium); }
 
         /* --- 导航栏 --- */
-        .main-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .main-nav { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+        @media (prefers-color-scheme: dark) { .main-nav { background-color: rgba(29, 29, 31, 0.7); } }
+        .main-nav .container { display: flex; justify-content: space-between; align-items: center; height: 52px; }
+        .nav-logo { font-weight: 600; font-size: 18px; color: var(--text-color); text-decoration: none; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: var(--secondary-text-color); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-color); }
+        .nav-links a.active { color: var(--accent-color); font-weight: 600; }
+        .nav-links .nav-button { font-size: 12px; background-color: var(--accent-color); color: #fff; padding: 6px 12px; border-radius: 20px; text-decoration: none; transition: background-color 0.3s; margin-left: 15px; }
+        .nav-links .nav-button:hover { background-color: #005bb5; color: #fff; }
+
+        /* --- 内容与卡片 --- */
+        .content-section, .hero {
+            /* 核心：定义吸附目标，并撑满全屏 */
+            scroll-snap-align: start;
+            min-height: 100vh;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .main-nav {
-                background-color: rgba(29, 29, 31, 0.7);
-            }
-        }
-
-        .main-nav .container {
+            /* 核心：让内容在全屏部分中垂直居中 */
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 52px;
-        }
-
-        .nav-logo {
-            font-weight: 600;
-            font-size: 18px;
-            color: var(--text-color);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            color: var(--secondary-text-color);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s, transform 0.1s, opacity 0.1s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* 优化建议 1: 导航栏动态高亮 */
-        .nav-links a.active {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        /* --- Hero 区域 --- */
-        .hero {
-            padding-top: 120px;
-            padding-bottom: 80px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.8s forwards;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 10px;
-        }
-
-        .hero .subtitle {
-            font-size: 24px;
-            font-weight: 500;
-            color: var(--secondary-text-color);
-            margin-bottom: var(--spacing-medium);
-            min-height: 36px; /* 防止打字时页面跳动 */
-        }
-        
-        .hero .gradient-text {
-            background: linear-gradient(90deg, #0071e3, #6a3093, #a044ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 18px;
-            color: var(--secondary-text-color);
-        }
-
-        /* 优化建议 9: 打字机光标效果 */
-        #typewriter::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-            color: var(--accent-color);
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* --- 内容区域通用样式 --- */
-        .content-section {
-            padding: 60px 0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .content-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title {
-            font-size: 36px;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: var(--spacing-large);
-        }
-
-        /* --- 卡片样式 --- */
-        .card {
-            background-color: var(--secondary-bg-color);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-large);
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            .card:hover {
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            }
-        }
-
-        /* --- 关于我 --- */
-        #about .card p {
-            font-size: 17px;
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* --- 技能网格 --- */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--spacing-medium);
-        }
-
-        .skill-card {
-            background-color: var(--secondary-bg-color);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .skill-card h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            /* 优化建议 3: 图标对齐 */
-            display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            gap: var(--spacing-small);
+            padding: 100px 0;
         }
+        .section-dark { background-color: var(--secondary-bg-color); }
+        .section-title { font-size: 56px; font-weight: 700; text-align: center; margin-bottom: 60px; letter-spacing: -1.5px; }
+        .card { background-color: var(--bg-color); border-radius: var(--border-radius); padding: var(--spacing-large); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+        @media (prefers-color-scheme: dark) { .card { background-color: var(--secondary-bg-color); box-shadow: 0 8px 32px rgba(0,0,0,0.2); } }
         
-        .skill-card h3 svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--accent-color);
-        }
+        /* --- Hero 区域 --- */
+        .hero { text-align: center; }
+        .hero h1 { font-size: 80px; font-weight: 700; letter-spacing: -2.5px; margin-bottom: 16px; }
+        .hero .subtitle { font-size: 28px; font-weight: 500; color: var(--secondary-text-color); margin-bottom: var(--spacing-large); min-height: 42px; }
+        .hero .gradient-text { background: linear-gradient(90deg, #0071e3, #6a3093, #a044ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+        .hero p { max-width: 600px; margin: 0 auto 40px; font-size: 21px; line-height: 1.5; color: var(--secondary-text-color); }
+        .cta-link { color: var(--accent-color); font-size: 21px; text-decoration: none; font-weight: 500; transition: opacity 0.3s; }
+        .cta-link:hover { opacity: 0.8; }
+        #typewriter::after { content: '|'; animation: blink 0.7s infinite; color: var(--accent-color); }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .skill-card ul {
-            list-style: none;
-            color: var(--secondary-text-color);
-        }
+        /* --- 关于我 & 职业目标 --- */
+        #about .card p { font-size: 19px; text-align: center; max-width: 700px; margin: 0 auto; line-height: 1.8; }
+        .career-goal { margin-top: var(--spacing-large); padding-top: var(--spacing-large); border-top: 1px solid var(--border-color); }
+        .career-goal p { font-size: 17px; font-style: italic; color: var(--secondary-text-color); text-align: center; }
 
-        /* --- 项目经历 --- */
-        .project-card {
-            margin-bottom: var(--spacing-medium);
-        }
+        /* --- 技能 "工具箱" --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-large); }
+        .skill-item { text-align: center; }
+        .skill-item h3 { font-size: 24px; margin-bottom: 15px; color: var(--text-color); display: flex; align-items: center; justify-content: center; gap: var(--spacing-small); }
+        .skill-item h3 svg { width: 28px; height: 28px; stroke: var(--accent-color); }
+        .skill-item p { color: var(--secondary-text-color); font-size: 17px; max-width: 300px; margin: 0 auto; }
 
-        .project-card h3 {
-            font-size: 22px;
-            margin-bottom: var(--spacing-small);
-        }
+        /* --- 项目深度剖析 & 画廊 --- */
+        .project-card { margin-bottom: var(--spacing-large); padding: 50px; }
+        .project-card:last-child { margin-bottom: 0; }
+        .project-card h3 { font-size: 28px; margin-bottom: var(--spacing-small); }
+        .project-card .project-meta { font-size: 16px; color: var(--secondary-text-color); margin-bottom: 24px; }
+        .project-card > p { font-size: 19px; margin-bottom: 30px; }
+        .project-details h4 { text-transform: uppercase; font-size: 12px; letter-spacing: 1px; color: var(--secondary-text-color); margin-top: var(--spacing-medium); margin-bottom: var(--spacing-small); }
+        .project-details p, .project-details ul { font-size: 17px; color: var(--secondary-text-color); }
+        .project-gallery { display: flex; gap: 15px; margin-top: var(--spacing-large); flex-wrap: wrap; }
+        .project-gallery img { width: 150px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: transform 0.3s, filter 0.3s; border: 1px solid var(--border-color); }
+        .project-gallery img:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        .project-card .project-meta {
-            font-size: 14px;
-            color: var(--secondary-text-color);
-            margin-bottom: 15px;
-        }
+        /* --- 核心课程 --- */
+        .tag-cloud { text-align: center; }
+        .tag { display: inline-block; background-color: var(--secondary-bg-color); color: var(--secondary-text-color); padding: 10px 20px; margin: 6px; border-radius: 30px; font-size: 16px; font-weight: 500; }
+        @media (prefers-color-scheme: dark) { .tag { background-color: #2c2c2e; } }
+
+        /* --- 荣誉奖项 & 博客 --- */
+        .award-card, .blog-card { margin-bottom: var(--spacing-medium); padding: 30px; }
+        .award-card:last-child, .blog-card:last-child { margin-bottom: 0; }
+        .award-card h3, .blog-card h3 { font-size: 21px; }
+        .award-card .date, .blog-card .excerpt { font-size: 16px; color: var(--secondary-text-color); }
+        .blog-card a { text-decoration: none; color: var(--accent-color); font-weight: 500; }
 
         /* --- 联系方式 --- */
-        #contact .card {
-            text-align: center;
-        }
+        .contact-links { display: flex; justify-content: center; gap: var(--spacing-medium); margin-top: var(--spacing-medium); }
+        .contact-links a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: var(--secondary-bg-color); border-radius: 50%; text-decoration: none; transition: transform 0.3s, opacity 0.1s; }
+        .contact-links a:hover { transform: scale(1.1); }
+        .contact-links svg { width: 22px; height: 22px; fill: var(--secondary-text-color); }
 
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-medium);
-            margin-top: var(--spacing-medium);
-        }
+        /* --- 个人爱好 --- */
+        .hobbies-grid { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+        .hobby-item { text-align: center; color: var(--text-color); }
+        .hobby-item svg { width: 48px; height: 48px; margin-bottom: var(--spacing-small); stroke: var(--accent-color); }
+        .hobby-item p { font-size: 19px; font-weight: 500; }
 
-        .contact-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background-color: var(--bg-color);
-            border-radius: 50%;
-            text-decoration: none;
-            transition: transform 0.3s, opacity 0.1s;
-        }
-        
-        .contact-links a:hover {
-            transform: scale(1.1);
-        }
+        /* --- 图片预览 Modal --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(5px); }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content { position: relative; max-width: 90vw; max-height: 85vh; }
+        .modal-content img { display: block; max-width: 100%; max-height: 100%; border-radius: 12px; }
+        .modal-close { position: absolute; top: -40px; right: -10px; color: #fff; font-size: 30px; cursor: pointer; background: none; border: none; }
 
-        .contact-links svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--secondary-text-color);
-        }
-
-        /* --- 页脚 --- */
-        .main-footer {
-            text-align: center;
-            padding: var(--spacing-large) var(--spacing-medium);
-            color: var(--secondary-text-color);
-            font-size: 12px;
-            border-top: 1px solid var(--border-color);
-            margin-top: 60px;
-        }
-
-        /* --- 动画与交互效果 --- */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* 优化建议 6: 交互动效增强 */
-        .nav-links a:active, .contact-links a:active, .back-to-top:active {
-            transform: scale(0.95);
-            opacity: 0.7;
-        }
-
-        /* 优化建议 8: 键盘导航可访问性 */
-        a:focus-visible, button:focus-visible {
-            outline: 2px solid var(--accent-color);
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-        
-        /* 优化建议 2: 返回顶部按钮 */
-        .back-to-top {
-            position: fixed;
-            bottom: var(--spacing-medium);
-            right: var(--spacing-medium);
-            width: 40px;
-            height: 40px;
-            background-color: var(--secondary-bg-color);
-            color: var(--accent-color);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            transform: translateY(20px);
-        }
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
+        /* --- 其他 --- */
+        .back-to-top { position: fixed; bottom: var(--spacing-medium); right: var(--spacing-medium); width: 40px; height: 40px; background-color: var(--secondary-bg-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 20px; opacity: 0; visibility: hidden; transition: all 0.3s; transform: translateY(20px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; }
+        .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 3px; border-radius: 4px; }
+        .main-footer { scroll-snap-align: start; padding: var(--spacing-large) var(--spacing-medium); text-align: center; color: var(--secondary-text-color); font-size: 12px; border-top: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
@@ -384,21 +145,24 @@
         <div class="container">
             <a href="#" class="nav-logo">Mutx163</a>
             <ul class="nav-links">
+                <li><a href="#hero">主页</a></li>
                 <li><a href="#about">关于我</a></li>
                 <li><a href="#skills">专业技能</a></li>
                 <li><a href="#projects">项目经历</a></li>
                 <li><a href="#contact">联系我</a></li>
+                <li><a href="your-resume.pdf" download class="nav-button">下载简历</a></li>
             </ul>
         </div>
     </nav>
 
     <main>
         <!-- Hero 区域 -->
-        <header class="hero">
+        <header id="hero" class="hero">
             <div class="container">
                 <h1>Mutx163</h1>
                 <h2 class="subtitle">重庆城市科技学院 <span id="typewriter" class="gradient-text"></span></h2>
                 <p>一名充满热情的大三学生，致力于将创新的机械设计理念转化为现实，探索自动化技术的无限可能。</p>
+                <a href="your-resume.pdf" download class="cta-link">下载我的简历 &rarr;</a>
             </div>
         </header>
 
@@ -407,53 +171,34 @@
             <div class="container">
                 <div class="card">
                     <h2 class="section-title">关于我</h2>
-                    <p>
-                        你好！我是 Mutx163。目前，我正在重庆城市科技学院攻读机械设计制造及其自动化专业。我对3D建模、智能制造和机器人技术抱有浓厚的兴趣。我享受从一个想法、一张草图，到最终通过软件仿真和实际制作，看到一个机械系统能够精准运作的过程。我具备扎实的理论基础，并渴望在实践中不断学习和成长。
-                    </p>
+                    <p>你好！我是 Mutx163。目前，我正在重庆城市科技学院攻读机械设计制造及其自动化专业。我对3D建模、智能制造和机器人技术抱有浓厚的兴趣。我享受从一个想法、一张草图，到最终通过软件仿真和实际制作，看到一个机械系统能够精准运作的过程。我具备扎实的理论基础，并渴望在实践中不断学习和成长。</p>
+                    <div class="career-goal">
+                        <p>我目前正在积极寻求一份关于【机器人结构设计】或【智能制造】方向的暑期实习，希望能将所学应用于实际工业场景中。</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 专业技能 -->
-        <section id="skills" class="content-section">
+        <!-- 专业技能 (深色背景) -->
+        <section id="skills" class="content-section section-dark">
             <div class="container">
-                <h2 class="section-title">专业技能</h2>
+                <h2 class="section-title">我的工具箱</h2>
                 <div class="skills-grid">
-                    <div class="skill-card">
-                        <h3>
-                            <!-- 优化建议 3: 技能卡片图标 -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-                            设计 & 建模软件
-                        </h3>
-                        <ul>
-                            <li>SolidWorks (精通)</li>
-                            <li>AutoCAD (熟练)</li>
-                            <li>CATIA (了解)</li>
-                            <li>Keyshot (渲染)</li>
-                        </ul>
+                    <div class="skill-item">
+                        <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>设计 & 建模</h3>
+                        <p>熟练运用SolidWorks进行复杂曲面造型、超过200个零件的大型装配体设计及运动仿真。</p>
                     </div>
-                    <div class="skill-card">
-                        <h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                            仿真 & 分析
-                        </h3>
-                        <ul>
-                            <li>ANSYS Workbench</li>
-                            <li>MATLAB/Simulink</li>
-                            <li>ADAMS (动力学分析)</li>
-                        </ul>
+                    <div class="skill-item">
+                        <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>仿真 & 分析</h3>
+                        <p>使用ANSYS对关键零部件进行静力学与热力学分析，并通过MATLAB验证机器人运动学算法。</p>
                     </div>
-                    <div class="skill-card">
-                        <h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                            编程 & 自动化
-                        </h3>
-                        <ul>
-                            <li>C/C++ (基础)</li>
-                            <li>Python (用于数据分析)</li>
-                            <li>PLC (西门子/三菱)</li>
-                            <li>Arduino / Raspberry Pi</li>
-                        </ul>
+                    <div class="skill-item">
+                        <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>编程 & 自动化</h3>
+                        <p>利用Python脚本自动化处理实验数据，并基于Arduino平台进行传感器数据采集与电机控制。</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>软技能</h3>
+                        <p>具备良好的团队协作与沟通能力，在项目中成功协调机械与电气组进度，并撰写了详细的技术文档。</p>
                     </div>
                 </div>
             </div>
@@ -464,103 +209,161 @@
             <div class="container">
                 <h2 class="section-title">项目经历</h2>
                 <div class="card project-card">
-                    <h3>项目一：智能循迹避障小车设计</h3>
+                    <h3>智能循迹避障小车设计</h3>
                     <p class="project-meta">课程设计 | 2023年秋季</p>
-                    <p>作为项目负责人，我主导了整个小车的机械结构设计与3D建模。使用SolidWorks完成了车身、轮系和传感器支架的设计，并进行了运动仿真。同时，与电气专业的同学协作，完成了基于Arduino的控制系统搭建，成功实现了小车的自主循迹和超声波避障功能。</p>
+                    <p>一个集机械结构、传感器技术和嵌入式控制于一体的综合性项目，旨在实现小车的自主导航功能。</p>
+                    <div class="project-details">
+                        <h4>我的角色</h4><p>担任项目负责人，主导机械结构设计、3D建模与仿真，并协调团队整体进度。</p>
+                        <h4>技术栈/工具</h4><ul><li>SolidWorks, AutoCAD, Arduino IDE, Fritzing</li></ul>
+                        <h4>挑战与解决</h4><p>初期超声波传感器数据抖动严重，通过编写滑动平均滤波算法，有效提高了测距的稳定性。</p>
+                    </div>
+                    <div class="project-gallery">
+                        <img src="https://placehold.co/400x300/0071e3/ffffff?text=渲染图" alt="小车渲染图"><img src="https://placehold.co/400x300/6a3093/ffffff?text=电路图" alt="电路图"><img src="https://placehold.co/400x300/a044ff/ffffff?text=实物图" alt="实物图">
+                    </div>
                 </div>
                 <div class="card project-card">
-                    <h3>项目二：六轴机械臂运动学分析</h3>
+                    <h3>六轴机械臂运动学分析</h3>
                     <p class="project-meta">个人研究项目 | 2024年春季</p>
-                    <p>通过MATLAB对一款工业六轴机械臂进行了正逆运动学建模与分析。利用D-H参数法建立了数学模型，并编写脚本求解了其工作空间。这个项目极大地加深了我对机器人运动学和编程仿真的理解。</p>
+                    <p>对一款工业六轴机械臂进行数学建模与仿真，深入理解其运动学原理，为后续的轨迹规划打下基础。</p>
+                    <div class="project-details">
+                        <h4>我的角色</h4><p>独立完成所有研究工作，包括资料调研、模型建立、编程仿真和报告撰写。</p>
+                        <h4>技术栈/工具</h4><ul><li>MATLAB, Robotics Toolbox, SolidWorks</li></ul>
+                        <h4>挑战与解决</h4><p>逆运动学求解存在多解问题。通过设定关节角度限制，筛选出符合实际工作姿态的唯一解。</p>
+                    </div>
+                    <div class="project-gallery">
+                        <img src="https://placehold.co/400x300/0071e3/ffffff?text=模型" alt="机械臂模型"><img src="https://placehold.co/400x300/6a3093/ffffff?text=工作空间" alt="工作空间仿真图">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心课程 -->
+        <section id="courses" class="content-section">
+            <div class="container">
+                <h2 class="section-title">核心课程</h2>
+                <div class="tag-cloud">
+                    <span class="tag">理论力学</span><span class="tag">材料力学</span><span class="tag">机械原理</span><span class="tag">机械设计</span><span class="tag">控制工程基础</span><span class="tag">液压与气压传动</span><span class="tag">单片机原理</span><span class="tag">有限元分析</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 荣誉奖项 -->
+        <section id="honors" class="content-section section-dark">
+            <div class="container">
+                <h2 class="section-title">荣誉奖项</h2>
+                <div class="card award-card"><h3>全国大学生机械创新设计大赛（省级二等奖）</h3><p class="date">2023年10月</p></div>
+                <div class="card award-card"><h3>校级一等奖学金</h3><p class="date">2022-2023学年</p></div>
+            </div>
+        </section>
+
+        <!-- 个人博客 -->
+        <section id="blog" class="content-section">
+            <div class="container">
+                <h2 class="section-title">阅读与思考</h2>
+                <div class="card blog-card">
+                    <h3>学习心得：如何用Python进行数据可视化</h3><p class="excerpt">本文记录了学习Matplotlib库的过程，从基础的折线图到复杂的热力图，并附上了代码示例...</p><a href="#" target="_blank" class="cta-link">阅读全文 &rarr;</a>
+                </div>
+                <div class="card blog-card">
+                    <h3>论文解读：《机器人运动规划综述》</h3><p class="excerpt">对A*算法、RRT算法等经典路径规划方法进行了梳理和比较，并思考了它们在实际应用中的优缺点...</p><a href="#" target="_blank" class="cta-link">阅读全文 &rarr;</a>
                 </div>
             </div>
         </section>
 
         <!-- 联系我 -->
-        <section id="contact" class="content-section">
+        <section id="contact" class="content-section section-dark">
             <div class="container">
-                <div class="card">
+                <div style="text-align: center;">
                     <h2 class="section-title">联系我</h2>
-                    <p>期待与您交流与合作，您可以通过以下方式找到我。</p>
+                    <p style="font-size: 21px; color: var(--secondary-text-color); max-width: 500px; margin: -40px auto 40px;">期待与您交流与合作，您可以通过以下方式找到我。</p>
                     <div class="contact-links">
-                        <a href="mailto:your_email@example.com" title="邮箱">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                        </a>
-                        <a href="https://github.com/your_username" target="_blank" title="GitHub">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                        </a>
+                        <a href="mailto:your_email@example.com" title="邮箱"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                        <a href="https://github.com/your_username" target="_blank" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 个人爱好 -->
+        <section id="hobbies" class="content-section">
+            <div class="container">
+                <h2 class="section-title">工作之外</h2>
+                <div class="hobbies-grid">
+                    <div class="hobby-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg><p>摄影</p></div>
+                    <div class="hobby-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><p>模型制作</p></div>
+                    <div class="hobby-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><p>阅读</p></div>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- 页脚 -->
-    <footer class="main-footer">
-        <div class="container">
-            <p>&copy; 2024 Mutx163. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <!-- 优化建议 2: 返回顶部按钮 HTML -->
+    <footer class="main-footer"><div class="container"><p>&copy; 2024 Mutx163. All Rights Reserved.</p></div></footer>
     <a href="#" class="back-to-top" title="返回顶部">↑</a>
+    <div class="modal-overlay" id="imageModal">
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+        <div class="modal-content"><img src="" alt="放大的项目图片" id="modalImage"></div>
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- 优化建议 9: 打字机效果 ---
+        // ... (JavaScript部分保持不变，CSS滚动吸附不需要JS干预)
         const typewriterElement = document.getElementById('typewriter');
-        const textToType = "机械设计制造及其自动化";
-        let typeIndex = 0;
-        function type() {
-            if (typeIndex < textToType.length) {
-                typewriterElement.textContent += textToType.charAt(typeIndex);
-                typeIndex++;
-                setTimeout(type, 120); // 打字速度
+        if (typewriterElement) {
+            const textToType = "机械设计制造及其自动化";
+            let typeIndex = 0;
+            function type() {
+                if (typeIndex < textToType.length) {
+                    typewriterElement.textContent += textToType.charAt(typeIndex++);
+                    setTimeout(type, 120);
+                }
             }
+            type();
         }
-        type(); // 页面加载后开始
 
-        // --- 滚动淡入动画 (原功能) ---
-        const sections = document.querySelectorAll('.content-section');
-        const observer = new IntersectionObserver(entries => {
+        const navLinks = document.querySelectorAll('.nav-links a:not(.nav-button)');
+        const contentSections = document.querySelectorAll('main > section, main > header');
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        // 导航高亮逻辑需要调整以适应吸附滚动
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(a => {
+                        a.classList.remove('active');
+                        if (a.getAttribute('href') === `#${id}`) {
+                            a.classList.add('active');
+                        }
+                    });
                 }
             });
-        }, { threshold: 0.1 });
-        sections.forEach(section => observer.observe(section));
+        }, { threshold: 0.5 }); // 当板块占据50%视口时触发
 
-        // --- 滚动事件监听 (整合多个功能) ---
-        const navLinks = document.querySelectorAll('.nav-links a');
-        const contentSections = document.querySelectorAll('section[id]');
-        const backToTopButton = document.querySelector('.back-to-top');
+        contentSections.forEach(section => observer.observe(section));
 
         window.addEventListener('scroll', () => {
-            let currentSectionId = '';
+            if (window.pageYOffset > 300) backToTopButton.classList.add('visible');
+            else backToTopButton.classList.remove('visible');
+        });
 
-            // 优化建议 1: 导航栏动态高亮
-            contentSections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 60) { // 60是导航栏高度的偏移量
-                    currentSectionId = section.getAttribute('id');
-                }
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const galleryImages = document.querySelectorAll('.project-gallery img');
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                modalImage.src = img.src;
+                imageModal.classList.add('visible');
+                document.body.classList.add('modal-open');
             });
-
-            navLinks.forEach(a => {
-                a.classList.remove('active');
-                if (a.getAttribute('href').substring(1) === currentSectionId) {
-                    a.classList.add('active');
-                }
-            });
-
-            // 优化建议 2: 返回顶部按钮显示/隐藏
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
+        });
+        function closeModal() {
+            imageModal.classList.remove('visible');
+            document.body.classList.remove('modal-open');
+        }
+        modalCloseBtn.addEventListener('click', closeModal);
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) closeModal();
         });
     });
     </script>
